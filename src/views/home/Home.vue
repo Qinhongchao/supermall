@@ -1,49 +1,131 @@
 <template>
-    <div id="home">  
+<div id="home">
     <nav-bar class="home-nav">
         <div slot="center"> 购物车</div>
     </nav-bar>
     <home-swiper :banners="banners"></home-swiper>
     <home-recommend-view :recommends="recommends"></home-recommend-view>
-    </div>
+    <home-feature-view></home-feature-view>
+    <tab-control class="tab-control" :titles="['流行','新款','精选']" @btnClick="tabClick"></tab-control>
+    <goods-list :goods="showGoods" ></goods-list>
+    
+</div>
 </template>
 
-<script >
+<script>
 import NavBar from 'components/common/navbar/NavBar';
-import {getHomeMultiData} from "network/home.js";
+import TabControl from "components/content/tabControl/TabControl";
+
 import HomeSwiper from "./childComps/HomeSwiper"
 import HomeRecommendView from "./childComps/HomeRecommendView"
+import HomeFeatureView from "./childComps/HomeFeatureView"
+import GoodsList from 'components/content/goods/GoodsList'
+
+import {
+    getHomeMultiData,
+    getHomeGoodsData
+} from "network/home.js";
 
 export default {
     name: "",
     data() {
         return {
-            result:null,
-            banners:[],
-            recommends:[]
+            result: null,
+            banners: [],
+            recommends: [],
+            currentType:'pop',
+            goods: {
+                "pop": {
+                    "page": 0,
+                    "list": []
+                },
+                "new": {
+                    "page": 0,
+                    "list": []
+                },
+                "sell": {
+                    "page": 0,
+                    "list": []
+                },
+            }
+        }
+    },
+    computed:{
+        showGoods(){
+            return this.goods[this.currentType].list;
         }
     },
     components: {
         NavBar,
-       HomeSwiper,
-       HomeRecommendView
+        HomeSwiper,
+        HomeRecommendView,
+        HomeFeatureView,
+        TabControl,
+        GoodsList
     },
-    created(){
+    created() {
         //请求多个数据
-        getHomeMultiData().then(res=>{
-            console.log(res);
-            this.result=res;
-            this.banners=res.data.banner.list;
-            this.recommends=res.data.recommend.list;
-        })
+        this.getHomeMultiData();
+        this.getHomeGoodsData('pop');
+        this.getHomeGoodsData('new');
+        this.getHomeGoodsData('sell');
+
     },
-    methods: {}
+    methods: {
+        /* 事件监听相关方法 */
+        tabClick(index){
+            switch(index){
+                case 0:
+                    this.currentType="pop";
+                    break;
+                case 1:
+                    this.currentType="new";
+                    break;
+                case 2:
+                    this.currentType="sell";
+                    break;
+            }
+        },
+        /* 网络请求相关方法 */
+        getHomeMultiData() {
+            getHomeMultiData().then(res => {
+                console.log(res);
+                this.result = res;
+                this.banners = res.data.banner.list;
+                this.recommends = res.data.recommend.list;
+            });
+        },
+        getHomeGoodsData(type) {
+            const page=this.goods[type].page+1;
+            getHomeGoodsData(type, page).then((res) => {
+                this.goods[type].list.push(...res.data.list); 
+                this.goods[type].page++;
+            })
+        }
+
+
+    }
 }
 </script>
 
-<style  scoped>
+<style scoped>
+#home {
+    padding-top: 44px;
+}
 
-.home-nav{
-    background-color: deeppink;
+.home-nav {
+    background-color: var(--color-tint);
+    color: #fff;
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9
+}
+
+.tab-control {
+    position: sticky;
+    top: 44px;
 }
 </style>
