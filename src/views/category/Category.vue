@@ -153,7 +153,21 @@ export default {
         }
     },
     mounted() {
-        this.bscroll = new BScroll(document.querySelector('.wrapper'), {})
+        this.bscroll = new BScroll(document.querySelector('.wrapper'), {
+            probeType: 3,
+            click: true,
+            pullUpLoad: true,
+        });
+        this.bscroll.on('scroll', (position) => {
+
+        });
+        this.bscroll.on('pullingUp', () => {
+            console.log("loading");
+            setTimeout(() => {
+                this.bscroll.finishPullUp();
+            }, 1000)
+
+        })
     },
     created() {
 
@@ -167,7 +181,10 @@ export default {
 <style scoped>
 .wrapper {
     background: red;
-    height: 150px;
+    height: 400px;
+    overflow: hidden;
 
 }
+
+.content {}
 </style>
