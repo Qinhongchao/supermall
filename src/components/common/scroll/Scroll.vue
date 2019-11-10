@@ -1,5 +1,5 @@
 <template>
-<div class="wrapper" ref="wrapper">
+<div  ref="wrapper">
     <div >
         <slot></slot>
     </div>
@@ -44,10 +44,13 @@ export default {
             this.$emit('scroll',position);
         });
 
-        this.scroll.on('pullingUp',()=>{
-            this.$emit("loadMore");
-           
-        })
+        if(this.pullUpLoad){
+            
+            this.scroll.on('pullingUp',()=>{
+                this.$emit("loadMore");
+               
+            })
+        }
         
     }
 }

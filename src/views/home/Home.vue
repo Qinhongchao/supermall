@@ -7,7 +7,7 @@
     <home-swiper :banners="banners"></home-swiper>
     <home-recommend-view :recommends="recommends"></home-recommend-view>
     <home-feature-view></home-feature-view>
-    <tab-control class="tab-control" :titles="['流行','新款','精选']" @btnClick="tabClick"></tab-control>
+    <tab-control class="tab-control" :titles="['流行','新款','精选']" @btnClick="tabClick" ref="tabControl"></tab-control>
     <goods-list :goods="showGoods" ></goods-list>
     </scroll>
     <back-top @click.native="backClick" :v-show="isShowBackTop"/>
@@ -25,7 +25,7 @@ import HomeFeatureView from "./childComps/HomeFeatureView"
 import GoodsList from 'components/content/goods/GoodsList'
 import BackTop from 'components/content/backtop/BackTop'
 
-
+import {debounce} from 'common/utils'
 
 import {
     getHomeMultiData,
@@ -56,6 +56,7 @@ export default {
             },
             bscroll:null,
             isShowBackTop:false,
+            tabOffsetTop:0
             
         }
     },
@@ -82,10 +83,17 @@ export default {
         this.getHomeGoodsData('pop');
         this.getHomeGoodsData('new');
         this.getHomeGoodsData('sell');
+       
 
     },
     mounted(){
-     
+    
+    const refresh=debounce(this.$refs.scroll.scroll.refresh,500)
+      this.$bus.$on("itemImageLoad",()=>{
+           refresh();
+        });
+    this.tabOffsetTop=this.$refs.tabControl.$el.offsetTop;
+    
     },
     methods: {
         /* 事件监听相关方法 */
@@ -108,11 +116,12 @@ export default {
         contentScroll(position){
            this.isShowBackTop=(-position.y)>1000;
         },
+
         loadMore(){
-            
             this.getHomeGoodsData(this.currentType);
-            
+            this.$refs.scroll.scroll.finishPullUp();
         },
+      
         /* 网络请求相关方法 */
         getHomeMultiData() {
             getHomeMultiData().then(res => {
@@ -127,8 +136,7 @@ export default {
             getHomeGoodsData(type, page).then((res) => {
                 this.goods[type].list.push(...res.data.list); 
                 this.goods[type].page++;
-                this.$refs.scroll.scroll.finishPullUp();
-                this.$refs.scroll.scroll.refresh();
+                
             })
         }
 
@@ -164,8 +172,5 @@ export default {
     z-index: 9
 }
 
-.tab-control {
-    position: sticky;
-    top: 44px;
-}
+
 </style>
