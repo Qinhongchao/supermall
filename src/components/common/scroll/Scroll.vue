@@ -1,5 +1,5 @@
 <template>
-<div  ref="wrapper">
+<div  ref="scrollDiv">
     <div >
         <slot></slot>
     </div>
@@ -33,7 +33,7 @@ export default {
     },
     mounted(){
 
-        this.scroll=new BScroll(this.$refs.wrapper,{
+        this.scroll=new BScroll(this.$refs.scrollDiv,{
             click:true,
             probeType:this.probeType,
             pullUpLoad:true

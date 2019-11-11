@@ -3,11 +3,12 @@
     <nav-bar class="home-nav">
         <div slot="center"> 购物车</div>
     </nav-bar> 
+    <tab-control v-show="isFixedTabControl" class="tab-control1" :titles="['流行','新款','精选']" @btnClick="tabClick" ref="tabControl1"></tab-control>
     <scroll class="content" ref="scroll" :probe-type="3"  @scroll="contentScroll" :pull-up-load="true" @loadMore="loadMore">
     <home-swiper :banners="banners"></home-swiper>
     <home-recommend-view :recommends="recommends"></home-recommend-view>
     <home-feature-view></home-feature-view>
-    <tab-control class="tab-control" :titles="['流行','新款','精选']" @btnClick="tabClick" ref="tabControl"></tab-control>
+    <tab-control class="tab-control2" :titles="['流行','新款','精选']" @btnClick="tabClick" ref="tabControl2"></tab-control>
     <goods-list :goods="showGoods" ></goods-list>
     </scroll>
     <back-top @click.native="backClick" :v-show="isShowBackTop"/>
@@ -33,7 +34,7 @@ import {
 } from "network/home.js";
 
 export default {
-    name: "",
+    name: "Home",
     data() {
         return {
             result: null,
@@ -56,7 +57,9 @@ export default {
             },
             bscroll:null,
             isShowBackTop:false,
-            tabOffsetTop:0
+            tabOffsetTop:0,
+            isFixedTabControl:false,
+            saveY:0
             
         }
     },
@@ -92,8 +95,14 @@ export default {
       this.$bus.$on("itemImageLoad",()=>{
            refresh();
         });
-    this.tabOffsetTop=this.$refs.tabControl.$el.offsetTop;
+   
     
+    },
+    activated(){
+        this.$refs.scroll.scroll.scrollTo(0,this.saveY,0);
+    },
+    deactivated(){
+        this.saveY=this.$refs.scroll.scroll.y;
     },
     methods: {
         /* 事件监听相关方法 */
@@ -115,6 +124,8 @@ export default {
         },
         contentScroll(position){
            this.isShowBackTop=(-position.y)>1000;
+           this.isFixedTabControl=(-position.y)>this.$refs.tabControl2.$el.offsetTop
+          
         },
 
         loadMore(){
@@ -151,6 +162,13 @@ export default {
     height: 100vh;
 }
 
+.tab-control1{
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 42px;
+    z-index: 9;
+}
 .content{
    overflow:hidden;
    position: absolute;
