@@ -1,6 +1,10 @@
 <template>
-<div class="wrapper">
+<div class="category-wrapper">
     <ul class="content">
+        
+        
+       
+      
         <li>AAAA</li>
         <li>AAAA</li>
         <li>AAAA</li>
@@ -17,128 +21,8 @@
         <li>AAAA</li>
         <li>AAAA</li>
         <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
-        <li>AAAA</li>
+        
+       
     </ul>
 </div>
 </template>
@@ -153,7 +37,7 @@ export default {
         }
     },
     mounted() {
-        this.bscroll = new BScroll(document.querySelector('.wrapper'), {
+        this.bscroll = new BScroll(document.querySelector('.category-wrapper'), {
             probeType: 3,
             click: true,
             pullUpLoad: true,

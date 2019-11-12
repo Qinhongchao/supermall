@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="detail-navbar">
     <nav-bar>
         <div slot="left" class="left" @click="back">
             <img src="~assets/img/common/back.svg">
@@ -34,6 +34,11 @@ export default {
 </script>
 
 <style scoped >
+.detail-navbar{
+        position: relative;
+        z-index: 9;
+        background-color: #fff;
+    }
 .left{
    padding-top: 5px;
 }

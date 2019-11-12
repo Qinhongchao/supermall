@@ -91,11 +91,11 @@ export default {
     },
     mounted(){
     
-    const refresh=debounce(this.$refs.scroll.scroll.refresh,500)
+   /*  const refresh=debounce(this.$refs.scroll.scroll.refresh,500)
       this.$bus.$on("itemImageLoad",()=>{
            refresh();
         });
-   
+    */
     
     },
     activated(){
