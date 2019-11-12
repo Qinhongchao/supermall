@@ -27,18 +27,24 @@ export default {
     },
     data() {
         return {
-            scroll:null,
+            scroll:{},
         
         }
     },
+    methods:{
+        refresh() {
+        this.scroll && this.scroll.refresh && this.scroll.refresh()
+      },
+    },
     mounted(){
+
 
         this.scroll=new BScroll(this.$refs.scrollDiv,{
             click:true,
             probeType:this.probeType,
             pullUpLoad:true
         });
-
+        
         this.scroll.on('scroll',(position)=>{
            
             this.$emit('scroll',position);
@@ -51,6 +57,7 @@ export default {
                
             })
         }
+        
         
     }
 }

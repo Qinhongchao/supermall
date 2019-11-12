@@ -59,7 +59,8 @@ export default {
             isShowBackTop:false,
             tabOffsetTop:0,
             isFixedTabControl:false,
-            saveY:0
+            saveY:0,
+            itemImgListener:null
             
         }
     },
@@ -91,11 +92,14 @@ export default {
     },
     mounted(){
     
-   /*  const refresh=debounce(this.$refs.scroll.scroll.refresh,500)
+     let newRefresh=debounce(this.$refs.scroll.refresh,500)
+    this.itemImgListener=()=>{
+        newRegresh(20,30,'abc');
+    }
       this.$bus.$on("itemImageLoad",()=>{
-           refresh();
-        });
-    */
+           newRefresh();
+        }); 
+    
     
     },
     activated(){
@@ -103,6 +107,8 @@ export default {
     },
     deactivated(){
         this.saveY=this.$refs.scroll.scroll.y;
+
+        this.$bus.$off('itemImgLoad',this.itemImgListener)
     },
     methods: {
         /* 事件监听相关方法 */
