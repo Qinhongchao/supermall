@@ -124,7 +124,11 @@ export default {
                     this.currentType="sell";
                     break;
             }
+            this.$refs.tabControl1.currentIndex=index;
+            this.$refs.tabControl2.currentIndex=index;
+           
         },
+      
         backClick(){
             this.$refs.scroll.scroll.scrollTo(0,0,500);
         },

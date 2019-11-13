@@ -5,7 +5,7 @@
             <img src="~assets/img/common/back.svg">
         </div>
         <div slot="center" class="center">
-            <div v-for="(item,index) in titles" :key="item" class="center-item"  :class="{active:currentIndex===index}" @click="currentIndex=index">{{item}}</div>
+            <div v-for="(item,index) in titles" :key="item" class="center-item"  :class="{active:currentIndex===index}" @click="navbarClick(index)" >{{item}}</div>
         </div>
     </nav-bar>
 </div>
@@ -28,6 +28,10 @@ export default {
     methods:{
        back(){
            this.$router.go(-1);
+       },
+       navbarClick(index){
+           this.currentIndex=index;
+           this.$emit('changeIndex',index);
        }
     }
 };

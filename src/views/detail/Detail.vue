@@ -1,15 +1,16 @@
 <template>
 <div class="detail">
-    <detail-nav-bar></detail-nav-bar>
-    <scroll class="content" ref="scroll" :probe-type="3">
+    <detail-nav-bar ref='navbar' @changeIndex="changeIndex"></detail-nav-bar>
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
         <detail-swiper :topImages="topImages"></detail-swiper>
         <detail-base-info :goods="goods"></detail-base-info>
         <detail-shop-info :shop="shop"></detail-shop-info>
-        <detail-goods-info :detailInfo="detailInfo"></detail-goods-info>
-        <detail-param-info :paramInfo="paramInfo"></detail-param-info>
-        <detail-comment-info :commentInfo="commentInfo"></detail-comment-info>
-        <goods-list :goods="recommends"></goods-list>
+        <detail-goods-info ref="detailGoodsInfo" :detailInfo="detailInfo" @goodsInfoImgLoaded="goodsInfoImgLoaded"></detail-goods-info>
+        <detail-param-info ref="detailParamInfo" :paramInfo="paramInfo"></detail-param-info>
+        <detail-comment-info ref="detailCommentInfo" :commentInfo="commentInfo"></detail-comment-info>
+        <goods-list ref="goodsList" :goods="recommends"></goods-list>
     </scroll>
+    <detail-bottom-bar></detail-bottom-bar>
 </div>
 </template>
 
@@ -30,10 +31,9 @@ import Scroll from 'components/common/scroll/Scroll'
 import DetailParamInfo from './childComps/DetailParamInfo'
 import DetailCommentInfo from './childComps/DetailCommentInfo'
 import GoodsList from 'components/content/goods/GoodsList'
-import {
-    debounce
-} from 'common/utils'
+import {debounce} from 'common/utils'
 import {itemListenerMixin} from 'common/mixin'
+import DetailBottomBar from './childComps/DetailBottomBar'
 
 export default {
     name: "Detail",
@@ -49,13 +49,50 @@ export default {
             commentInfo: {},
             recommends: [],
             itemImgListener: null,
+            scrollParam:[],
+            imgDebounce:null,
+            currentIndex:0
         };
     },
     mixins:[
         itemListenerMixin
     ],
     created() {
+        this.imgDebounce=debounce(()=>{
+            this.debounceFunc();
+        },200)
+    },
+    methods:{
+        changeIndex(index){
+             this.$refs.scroll.scroll.scrollTo(0,-this.scrollParam[index],500);
+             this.currentIndex=index;
+        },
 
+        debounceFunc(){
+            this.scrollParam[0]=0;
+            this.scrollParam[1]=this.$refs.detailParamInfo.$el.offsetTop;
+            this.scrollParam[2]=this.$refs.detailCommentInfo.$el.offsetTop;
+            this.scrollParam[3]=this.$refs.goodsList.$el.offsetTop;
+            console.log(this.scrollParam);
+        },
+
+         goodsInfoImgLoaded(){
+            this.imgDebounce();   
+        },
+
+        contentScroll(position){
+
+
+            for(let i=0;i<this.scrollParam.length;i++){
+    
+                if(this.currentIndex!=i&&((i==this.scrollParam.length-1)&&-position.y>this.scrollParam[i])||(-position.y>=this.scrollParam[i]))
+                {
+                    this.currentIndex=i;
+                    this.$refs.navbar.currentIndex=this.currentIndex;
+                }
+            }
+            
+        }
     },
     mounted() {
         this.iid = this.$route.params.iid;
@@ -72,13 +109,16 @@ export default {
 
         });
 
-       
-
         getRecommend().then((res) => {
             this.recommends = res.data.list;
         });
 
+
+       
+
     },
+
+   
     components: {
         DetailNavBar,
         DetailSwiper,
@@ -88,8 +128,11 @@ export default {
         Scroll,
         DetailParamInfo,
         DetailCommentInfo,
-        GoodsList
+        GoodsList,
+        DetailBottomBar
     },
+
+
     deactivated() {
 
     },
