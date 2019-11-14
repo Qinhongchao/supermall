@@ -74,7 +74,7 @@ export default {
         obj.imgURL = this.topImages[0]
         obj.title = this.goods.title
         obj.desc = this.goods.desc;
-        obj.newPrice = this.goods.nowPrice;
+        obj.newPrice = this.goods.newPrice;
         // 3.添加到Store中
        
             this.$store.dispatch('addCart',obj);

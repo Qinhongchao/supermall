@@ -34,7 +34,11 @@ export default new Vuex.Store({
     getters: {
         cartListLength(state) {
             return state.cartList.length;
+        },
+        cartList(state) {
+            return state.cartList;
         }
+
     },
     modules: {}
 })
