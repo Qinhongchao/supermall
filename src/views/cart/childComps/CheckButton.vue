@@ -22,6 +22,7 @@
     },
     methods: {
       selectItem: function () {
+      
         this.$emit('checkBtnClick')
       }
     },

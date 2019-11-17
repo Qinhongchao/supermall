@@ -13,17 +13,24 @@ export default {
     name: "BottomBar",
     data() {
         return {
-            isSelectAll:false
+           
         }
+    },
+    props:{
+      cartList:Array
     },
     computed:{
         totalPrice(){
             return 10;
+        },
+        isSelectAll(){
+          return (!this.cartList.length==0 && !this.cartList.filter((item)=>{return item.checked==false}).length>0);
         }
     },
     methods:{
         checkBtnClick(){
             this.isSelectAll=!this.isSelectAll;
+            this.cartList.forEach((item)=>{item.checked==this.isSelectAll});
             
         }
     },

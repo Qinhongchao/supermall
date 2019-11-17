@@ -1,9 +1,9 @@
 <template>
   <div id="shop-item">
     <div class="item-selector"> 
-      <CheckButton @checkBtnClick="checkedChange" v-model="isSelect"></CheckButton>
+      <CheckButton @checkBtnClick="checkedChange" v-model="itemInfo.checked"></CheckButton>
     </div>
-    <div class="item-img">
+   <div class="item-img">
       <img :src="itemInfo.imgURL" alt="商品图片">
     </div>
     <div class="item-info">
@@ -26,21 +26,19 @@ export default {
     },
     data() {
         return {
-            
+          
         }
     },
     computed:{
-        isSelect(){
-           console.log("QQQQ",this.itemInfo);
-           return this.itemInfo.checked;
-       }
+        
     },
     methods:{
         checkedChange(){
             this.itemInfo.checked=!this.itemInfo.checked; 
-          
         },
-       
+    },
+    mounted(){
+      console.log(this.itemInfo)
     },
     components:{
         CheckButton

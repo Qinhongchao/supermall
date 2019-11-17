@@ -4,7 +4,7 @@
         <div class="center" slot="center">购物车({{cartListLength}})</div>
     </nav-bar>
     <cart-list class="cart-list" :cartList="cartList"></cart-list>
-    <bottom-bar ></bottom-bar>
+    <bottom-bar :cartList="cartList"></bottom-bar>
 </div>
 </template>
 

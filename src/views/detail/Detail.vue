@@ -34,6 +34,7 @@ import GoodsList from 'components/content/goods/GoodsList'
 import {debounce} from 'common/utils'
 import {itemListenerMixin} from 'common/mixin'
 import DetailBottomBar from './childComps/DetailBottomBar'
+import {mapActions}  from 'vuex'
 
 export default {
     name: "Detail",
@@ -64,6 +65,8 @@ export default {
     },
     methods:{
 
+        ...mapActions(['addCart']),
+
         addToCart(){
             
              // 1.创建对象
@@ -75,9 +78,14 @@ export default {
         obj.title = this.goods.title
         obj.desc = this.goods.desc;
         obj.newPrice = this.goods.newPrice;
+        obj.checked=true;
         // 3.添加到Store中
        
-            this.$store.dispatch('addCart',obj);
+          ///  this.$store.dispatch('addCart',obj);
+        this.addCart(obj).then((res)=>{
+            this.$toast.show(res,2000);
+             
+          });
         },
 
         changeIndex(index){
@@ -128,10 +136,7 @@ export default {
 
         getRecommend().then((res) => {
             this.recommends = res.data.list;
-        });
-
-
-       
+        }); 
 
     },
 
